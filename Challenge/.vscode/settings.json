@@ -1,0 +1,8 @@
+{
+  "python.pythonPath": "backend/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "backend/app"
+  ],
+  "editor.formatOnSave": true,
+  "eslint.enable": true
+}
