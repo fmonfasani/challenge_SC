@@ -1,61 +1,54 @@
-# 🎨 Frontend - Beneficios Web App
+# React + TypeScript + Vite
 
-Aplicación web para la consulta de beneficios. Consume los servicios expuestos por el backend y permite visualizar, buscar y gestionar favoritos.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🚀 Tecnologías
-- React 18
-- Vite
-- Axios
-- React Router DOM
-- Tailwind CSS
-- Lucide React (íconos)
+Currently, two official plugins are available:
 
-## 📦 Estructura del proyecto
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-frontend/
-├── src/
-│ ├── main.jsx
-│ ├── App.jsx
-│ ├── components/
-│ ├── services/
-├── Dockerfile
-├── package.json
-├── vite.config.js
-└── .env
+## Expanding the ESLint configuration
 
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 🔗 Funcionalidades principales
-
-- Listado de beneficios con búsqueda por nombre.
-- Filtro por estado (activo/inactivo).
-- Visualización de detalle de cada beneficio.
-- Marcado de beneficios como favoritos (localStorage).
-- Diseño completamente responsivo.
-- Lazy Loading de imágenes.
-
-## ⚙️ Instalación local
-
-# Instalar dependencias
-```bash
-npm install
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
-# Ejecutar servidor de desarrollo
 
-```bash
-npm run dev
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
 ```
-Acceso:
-
-Frontend disponible en: http://localhost:3000/beneficios
-
-📄 Variables de entorno
-El proyecto usa una variable para la URL del backend:
-
-VITE_API_URL=http://localhost:8000/api
-
-🐳 Docker
-```bash
-docker build -t beneficios-frontend .
-docker run -p 3000:3000 beneficios-frontend
-```
-El frontend sirve la aplicación en http://localhost:3000.
