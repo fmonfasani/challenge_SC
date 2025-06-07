@@ -1,0 +1,52 @@
+# --- General ---
+*.log
+*.tmp
+*.swp
+.DS_Store
+.env
+.env.*     # Variaciones de entornos
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# --- Backend (Python) ---
+backend/__pycache__/
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.venv/
+backend/venv/
+backend/.coverage
+backend/htmlcov/
+backend/instance/
+backend/*.db
+backend/.idea/
+backend/.vscode/
+
+# --- Frontend (Node.js + Vite + React) ---
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.eslintcache
+frontend/.parcel-cache/
+frontend/.cache/
+frontend/yarn.lock # (si estás usando npm no es necesario ignorarlo, pero por las dudas)
+frontend/.idea/
+frontend/.vscode/
+
+# --- Docker ---
+**/Dockerfile
+docker-compose.override.yml
+.docker/
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Others ---
+*.bak
+*.old
+*.orig
+*.tmp
+*.temp

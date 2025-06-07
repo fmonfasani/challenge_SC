@@ -1,0 +1,34 @@
+# Evitar archivos de caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.pycache__
+*.pytest_cache/
+.pytest_cache/
+
+# Evitar archivos de entorno
+.env
+.venv/
+venv/
+
+# Archivos de cobertura y test reports
+htmlcov/
+coverage.xml
+.cache/
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+
+# Evitar archivos de Docker innecesarios
+Dockerfile
+docker-compose.yml
+
+# README y otros archivos de documentación
+README.md
+*.log
