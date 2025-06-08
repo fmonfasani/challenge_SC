@@ -10,47 +10,51 @@ Este módulo expone una API REST para la gestión de beneficios. Actúa como int
 - Uvicorn (ASGI Server)
 - Pytest (testing)
 
-## 📦 Estructura del proyecto
+Beneficios API - Clean Architecture
+API REST minimalista que actúa como intermediario para la API de beneficios de SportClub, implementando Clean Architecture.
+🏗️ Arquitectura
+app/
+├── domain/          # Entidades y reglas de negocio
+│   ├── models.py    # Modelos de dominio
+│   └── ports.py     # Interfaces/Contratos
+├── application/     # Casos de uso
+│   └── services.py  # Servicios de aplicación
+└── infrastructure/  # Detalles técnicos
+    ├── repositories.py  # Implementación de repositorios
+    ├── schemas.py      # Modelos de API
+    ├── routers.py      # Endpoints
+    └── middleware.py   # Middleware personalizado
+Principios Aplicados
 
-backend/
-├── app/
-│ ├── main.py
-│ ├── routers/
-│ ├── schemas/
-│ ├── services/
-├── tests/
-├── Dockerfile
-├── requirements.txt
-└── pytest.ini
+Inversión de dependencias: Dominio no depende de infraestructura
+Separación de responsabilidades: Cada capa tiene una responsabilidad específica
+Testabilidad: Fácil testing mediante interfaces
+Escalabilidad: Fácil agregar nuevas fuentes de datos
 
+🚀 Instalación y Ejecución
+Local
+bash# Instalar dependencias
+make install
 
-## 🔗 Endpoints disponibles
+# Copiar variables de entorno
+cp .env.example .env
 
-- `GET /api/beneficios` — Lista todos los beneficios.
-- `GET /api/beneficios/{id}` — Muestra el detalle de un beneficio.
+# Ejecutar en modo desarrollo
+make dev
+Docker
+bash# Construir imagen
+make docker-build
 
-## ⚙️ Instalación local
+# Ejecutar contenedor
+make docker-run
+📋 Endpoints
+MétodoEndpointDescripciónGET/api/beneficiosLista todos los beneficiosGET/api/beneficios/{id}Obtiene beneficio por IDGET/healthHealth checkGET/docsDocumentación automática
+🧪 Testing
+bash# Tests completos con cobertura
+make test
 
-```bash
-# Crear entorno virtual
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+# Solo tests unitarios
+pytest tests/test_beneficios_service.py -v
 
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Levantar el servidor
-uvicorn app.main:app --reload
-Acceso:
-
-API disponible en: http://localhost:8000/docs (Swagger UI)
-
-🧪 Ejecutar tests
-
-pytest --cov=app --cov-report=term-missing
-
-docker build -t beneficios-backend .
-docker run -p 8000:8000 beneficios-backend
-
-
+# Tests de integración
+pytest tests/test_integration.py -

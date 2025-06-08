@@ -1,34 +1,52 @@
 import logging
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import beneficios, mock
+from .infrastructure.middleware import setup_middleware
+from .infrastructure.routers import router as beneficios_router
+from .routers.mock import router as mock_router
 
-
-
-logging.basicConfig(level=logging.INFO)
+# Logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 app = FastAPI(
     title="Beneficios API",
-    description="API para gestión de beneficios de Sport Club",
-    version="1.0.0"
+    description="Clean Architecture API for Beneficios Management",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
+# CORS
 app.add_middleware(
-    CORSMiddleware, 
+    CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(beneficios.router, prefix="/api")
-app.include_router(mock.router, prefix="/api")  
+# Custom middleware
+setup_middleware(app)
+
+# Routers
+app.include_router(beneficios_router)
+app.include_router(mock_router, prefix="/api")
 
 
 @app.get("/")
 async def root():
-    return {"message": "Beneficios API is running"}
+    return {"message": "Beneficios API is running", "version": "1.0.0"}
+
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "beneficios-api", "version": "1.0.0"}
+    return {
+        "status": "healthy",
+        "service": "beneficios-api",
+        "version": "1.0.0",
+        "environment": os.getenv("ENV", "development")
+    }
