@@ -1,18 +1,16 @@
 # app/interfaces/routers.py
 
 from fastapi import APIRouter, Path, Depends, Request
-from slowapi import Limiter
 from slowapi.util import get_remote_address
 from app.interfaces.schemas import BeneficioResponse, BeneficioListResponse
 from app.application.services import BeneficioService
 from app.infrastructure.repositories import ExternalBeneficioRepository
+from app.interfaces.middlewares import limiter  # ✅ IMPORTAMOS EL limiter GLOBAL
 
 # Dependency function
 def get_beneficio_service() -> BeneficioService:
     repository = ExternalBeneficioRepository()
     return BeneficioService(repository)
-
-limiter = Limiter(key_func=get_remote_address)
 
 router = APIRouter(prefix="/api/beneficios", tags=["beneficios"])
 

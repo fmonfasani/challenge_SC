@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from ..domain.models import Beneficio, BeneficiosList
+from ..app.domain.models import Beneficio, BeneficiosList
 
 
 class BeneficioResponse(BaseModel):
