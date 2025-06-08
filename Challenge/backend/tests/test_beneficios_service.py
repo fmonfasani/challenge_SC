@@ -24,7 +24,7 @@ fake_beneficio = fake_beneficios[0]
 async def test_get_all_beneficios_success():
     service = BeneficiosService()
     with respx.mock:
-        respx.get(f"{service.base_url}beneficios").mock(return_value=httpx.Response(200, json=fake_beneficios))
+        respx.get(f"{service.base_url}/beneficios").mock(return_value=httpx.Response(200, json=fake_beneficios))
         response = await service.get_all_beneficios()
         assert response.total == 1
         assert response.beneficios[0].id == 1
@@ -33,7 +33,7 @@ async def test_get_all_beneficios_success():
 async def test_get_beneficio_by_id_success():
     service = BeneficiosService()
     with respx.mock:
-        respx.get(f"{service.base_url}beneficios/1").mock(return_value=httpx.Response(200, json=fake_beneficio))
+        respx.get(f"{service.base_url}/beneficios/1").mock(return_value=httpx.Response(200, json=fake_beneficio))
         response = await service.get_beneficio_by_id(1)
         assert response.id == 1
         assert response.name == "Beneficio Mock"
@@ -42,7 +42,7 @@ async def test_get_beneficio_by_id_success():
 async def test_get_beneficio_by_id_not_found():
     service = BeneficiosService()
     with respx.mock:
-        respx.get(f"{service.base_url}beneficios/9999").mock(return_value=httpx.Response(404))
+        respx.get(f"{service.base_url}/beneficios/9999").mock(return_value=httpx.Response(404))
         with pytest.raises(HTTPException) as excinfo:
             await service.get_beneficio_by_id(9999)
         assert excinfo.value.status_code == 404
