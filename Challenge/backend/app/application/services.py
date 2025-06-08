@@ -30,3 +30,6 @@ class BeneficioService:
 
     async def health_check(self) -> dict:
         return await self._repository.health_check()
+class ExternalAPIError(Exception):
+    "Error al comunicarse con la API externa"
+    pass
