@@ -1,8 +1,8 @@
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import beneficios
-from app.routers import mock
+from app.routers import beneficios, mock
+
 
 
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +14,7 @@ app = FastAPI(
 )
 
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware,docker 
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 app.include_router(beneficios.router, prefix="/api")
-app.include_router(mock.router, prefix="/api")
+app.include_router(mock.router, prefix="/api")  
 
 
 @app.get("/")
