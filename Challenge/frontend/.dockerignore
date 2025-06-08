@@ -22,3 +22,11 @@ Thumbs.db
 # Documentación
 README.md
 Dockerfile
+
+npm-debug.log
+.dockerignore
+.git
+.gitignore
+.nyc_output
+coverage
+.cache
