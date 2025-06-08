@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Path, Depends, Request
 from slowapi.util import get_remote_address
-from app.interfaces.schemas import BeneficioResponse, BeneficioListResponse
+from app.interfaces.schemas.schemas import BeneficioResponse, BeneficioListResponse
 from app.application.services import BeneficioService
 from app.infrastructure.repositories import ExternalBeneficioRepository
 from app.interfaces.middlewares import limiter  

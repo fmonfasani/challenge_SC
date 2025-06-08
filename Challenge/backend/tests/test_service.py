@@ -1,10 +1,9 @@
 import pytest
 import httpx
 import respx
-from unittest.mock import patch, AsyncMock
-from app.application.services import BeneficiosService, ExternalAPIError
-from app.application.services import BeneficioResponse, BeneficioListResponse
 from fastapi import HTTPException
+from app.application.services import BeneficioService, ExternalAPIError
+from app.interfaces.schemas import BeneficioResponse, BeneficioListResponse
 
 # Datos de prueba
 MOCK_BENEFICIO = {
@@ -33,10 +32,9 @@ MOCK_BENEFICIOS_LIST = [
 ]
 
 class TestBeneficiosService:
-    
     @pytest.fixture
     def service(self):
-        return BeneficiosService()
+        return BeneficioService()
     
     @pytest.mark.asyncio
     async def test_get_all_beneficios_success(self, service):
@@ -97,7 +95,7 @@ class TestBeneficiosService:
             await service.get_beneficio_by_id(-1)
         
         assert exc_info.value.status_code == 400
-    
+        
     @pytest.mark.asyncio
     async def test_timeout_error_with_retries(self, service):
         """Test para timeout con reintentos"""
@@ -126,7 +124,7 @@ class TestBeneficiosService:
             assert exc_info.value.status_code == 502
             assert "Error del servidor externo" in exc_info.value.detail
     
-    @pytest.mark.asyncio 
+    @pytest.mark.asyncio
     async def test_invalid_response_format(self, service):
         """Test para formato de respuesta inválido"""
         with respx.mock:
@@ -228,11 +226,10 @@ class TestBeneficiosService:
 
 # Tests de integración
 class TestBeneficiosIntegration:
-    
     @pytest.mark.asyncio
     async def test_full_flow_success(self):
         """Test de flujo completo exitoso"""
-        service = BeneficiosService()
+        service = BeneficioService()
         
         with respx.mock:
             # Mock para lista
