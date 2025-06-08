@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class ExternalBeneficioRepository(BeneficiosRepositoryPort):
     def __init__(self):
         self.base_url = os.getenv("API_BASE_URL", "http://localhost:8000/api/mock")
-        self.timeout = int(os.getenv("API_TIMEOUT", "10"))
+        self.timeout = int(os.getenv("REQUEST_TIMEOUT", "10"))
         self.max_retries = int(os.getenv("MAX_RETRIES", "3"))
 
     async def _make_request(self, url: str, retries: int = 0) -> dict:
@@ -32,6 +32,7 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
             raise
 
     def _to_domain_model(self, data: Dict[str, Any]) -> Beneficio:
+        """Convierte datos de API a modelo de dominio"""
         return Beneficio(
             id=data["id"],
             name=data["name"],
@@ -44,23 +45,31 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
         )
 
     async def get_all(self) -> List[Beneficio]:
+        """Obtiene todos los beneficios y retorna lista de objetos Beneficio"""
         url = f"{self.base_url}/beneficios"
-        data = await self._make_request(url)
-        
-        if not isinstance(data, list):
-            raise ValueError("Invalid response format")
-        
-        beneficios = []
-        for item in data:
-            try:
-                if item.get("id") and item.get("name"):
-                    beneficios.append(self._to_domain_model(item))
-            except Exception as e:
-                logger.warning(f"Skipping invalid beneficio: {e}")
-        
-        return beneficios
+        try:
+            data = await self._make_request(url)
+            
+            if not isinstance(data, list):
+                raise ValueError("Invalid response format: expected list")
+            
+            beneficios = []
+            for item in data:
+                try:
+                    if item.get("id") and item.get("name"):
+                        beneficios.append(self._to_domain_model(item))
+                except Exception as e:
+                    logger.warning(f"Skipping invalid beneficio: {e}")
+            
+            logger.info(f"Successfully retrieved {len(beneficios)} benefits")
+            return beneficios
+            
+        except Exception as e:
+            logger.error(f"Error fetching benefits: {str(e)}")
+            raise
 
     async def get_by_id(self, beneficio_id: int) -> Optional[Beneficio]:
+        """Obtiene un beneficio por ID"""
         url = f"{self.base_url}/beneficios/{beneficio_id}"
         try:
             data = await self._make_request(url)
@@ -69,10 +78,14 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
             if e.response.status_code == 404:
                 return None
             raise
+        except Exception as e:
+            logger.error(f"Error fetching benefit {beneficio_id}: {str(e)}")
+            raise
 
     async def health_check(self) -> dict:
+        """Verifica el estado de la API externa"""
         try:
             await self._make_request(f"{self.base_url}/beneficios")
             return {"status": "healthy", "api_url": self.base_url}
         except Exception as e:
-            return {"status": "unhealthy", "error": str(e)}
+            return {"status": "unhealthy", "error": str(e), "api_url": self.base_url}

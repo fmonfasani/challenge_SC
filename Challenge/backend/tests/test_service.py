@@ -24,8 +24,9 @@ async def test_get_all_beneficios_success(service, mock_repository):
     result = await service.get_all_beneficios()
 
     # Assert
-    assert len(result) == 2
-    assert result[0].name == "Test 1"
+    assert len(result.beneficios) == 2  # Cambiado: ahora result es BeneficiosList
+    assert result.total == 2  # Verificamos el total
+    assert result.beneficios[0].name == "Test 1"
     mock_repository.get_all.assert_called_once()
 
 @pytest.mark.asyncio

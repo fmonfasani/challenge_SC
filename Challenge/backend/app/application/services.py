@@ -1,6 +1,6 @@
 from typing import List, Optional
 import logging
-from app.domain.models import Beneficio
+from app.domain.models import Beneficio, BeneficiosList
 from app.domain.ports import BeneficiosRepositoryPort
 
 logger = logging.getLogger(__name__)
@@ -9,13 +9,18 @@ class BeneficiosService:
     def __init__(self, repository: BeneficiosRepositoryPort):
         self.repository = repository
 
-    async def get_all_beneficios(self) -> List[Beneficio]:
-        """Obtiene todos los beneficios"""
+    async def get_all_beneficios(self) -> BeneficiosList:
+        """Obtiene todos los beneficios y retorna BeneficiosList"""
         try:
             logger.info("Obteniendo todos los beneficios")
             beneficios = await self.repository.get_all()
             logger.info(f"Se obtuvieron {len(beneficios)} beneficios")
-            return beneficios
+            
+            # Retornamos BeneficiosList en lugar de solo la lista
+            return BeneficiosList(
+                beneficios=beneficios,
+                total=len(beneficios)
+            )
         except Exception as e:
             logger.error(f"Error obteniendo beneficios: {str(e)}")
             raise

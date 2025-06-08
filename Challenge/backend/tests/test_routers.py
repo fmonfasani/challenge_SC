@@ -8,16 +8,20 @@ from app.main import app
 async def test_get_all_beneficios():
     """Test get all beneficios endpoint"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/beneficios")
+        response = await ac.get("/api/beneficios")  # Ruta corregida
         assert response.status_code == 200
-        assert isinstance(response.json(), list)
+        data = response.json()
+        assert isinstance(data, dict)
+        assert "beneficios" in data
+        assert "total" in data
+        assert isinstance(data["beneficios"], list)
 
 
 @pytest.mark.asyncio
 async def test_get_beneficio_by_id_success():
     """Test get beneficio by ID - success case"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/beneficios/1")
+        response = await ac.get("/api/beneficios/1")  # Ruta corregida
         # Should return 200 if found or 404 if not found
         assert response.status_code in [200, 404]
         if response.status_code == 200:
@@ -29,37 +33,57 @@ async def test_get_beneficio_by_id_success():
 async def test_get_beneficio_by_id_not_found():  
     """Test get beneficio by ID - not found case"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/beneficios/999999")  # Use a very high ID that likely doesn't exist
+        response = await ac.get("/api/beneficios/999999")  # Ruta corregida
         assert response.status_code == 404
 
 
-# Additional test with mocked service for more controlled testing
 @pytest.mark.asyncio
 async def test_get_all_beneficios_with_mock():
     """Test get all beneficios with mocked service"""
-    mock_data = [
-        {"id": 1, "name": "Test Beneficio 1"},
-        {"id": 2, "name": "Test Beneficio 2"}
-    ]
+    mock_data = {
+        "beneficios": [
+            {"id": 1, "name": "Test Beneficio 1", "description": "Test desc", "status": "active"},
+            {"id": 2, "name": "Test Beneficio 2", "description": "Test desc", "status": "active"}
+        ],
+        "total": 2
+    }
     
-    with patch('app.interfaces.routers.routers.beneficio_service') as mock_service:
-        mock_service.get_all_beneficios = AsyncMock(return_value=mock_data)
+    # Mockeamos el servicio en el lugar correcto
+    with patch('app.application.services.BeneficiosService.get_all_beneficios') as mock_service:
+        from app.domain.models import BeneficiosList, Beneficio, BeneficioStatus
+        
+        beneficios = [
+            Beneficio(id=1, name="Test 1", description="Desc 1", status=BeneficioStatus.ACTIVE),
+            Beneficio(id=2, name="Test 2", description="Desc 2", status=BeneficioStatus.ACTIVE)
+        ]
+        mock_service.return_value = BeneficiosList(beneficios=beneficios, total=2)
         
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-            response = await ac.get("/beneficios")
+            response = await ac.get("/api/beneficios")
             assert response.status_code == 200
-            assert response.json() == mock_data
+            data = response.json()
+            assert data["total"] == 2
+            assert len(data["beneficios"]) == 2
 
 
 @pytest.mark.asyncio
 async def test_get_beneficio_by_id_with_mock():
     """Test get beneficio by ID with mocked service"""
-    mock_data = {"id": 1, "name": "Test Beneficio"}
     
-    with patch('app.interfaces.routers.routers.beneficio_service') as mock_service:
-        mock_service.get_beneficio_by_id = AsyncMock(return_value=mock_data)
+    with patch('app.application.services.BeneficiosService.get_beneficio_by_id') as mock_service:
+        from app.domain.models import Beneficio, BeneficioStatus
+        
+        mock_beneficio = Beneficio(
+            id=1, 
+            name="Test Beneficio", 
+            description="Test desc", 
+            status=BeneficioStatus.ACTIVE
+        )
+        mock_service.return_value = mock_beneficio
         
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-            response = await ac.get("/beneficios/1")
+            response = await ac.get("/api/beneficios/1")
             assert response.status_code == 200
-            assert response.json() == mock_data
+            data = response.json()
+            assert data["id"] == 1
+            assert data["name"] == "Test Beneficio"
