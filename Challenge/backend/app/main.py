@@ -9,12 +9,12 @@ logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title="Beneficios API",
-    description="API para gestión de beneficios usando Clean Architecture",
+    description="API para gestión de beneficios de Sport Club",
     version="1.0.0"
 )
 
 app.add_middleware(
-    CORSMiddleware,docker 
+    CORSMiddleware, 
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
