@@ -6,6 +6,9 @@ services:
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
+      - API_BASE_URL=${API_BASE_URL} # Para que tome la variable de entorno
+    env_file:
+      - ./backend/.env
     volumes:
       - ./backend:/app
     restart: unless-stopped

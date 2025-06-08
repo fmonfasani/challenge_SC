@@ -50,3 +50,6 @@ logs/
 *.orig
 *.tmp
 *.temp
+
+Challenge.zip
+*.zip
