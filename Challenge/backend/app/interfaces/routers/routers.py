@@ -5,7 +5,7 @@ from slowapi.util import get_remote_address
 from app.interfaces.schemas import BeneficioResponse, BeneficioListResponse
 from app.application.services import BeneficioService
 from app.infrastructure.repositories import ExternalBeneficioRepository
-from app.interfaces.middlewares import limiter  # ✅ IMPORTAMOS EL limiter GLOBAL
+from app.interfaces.middlewares import limiter  
 
 # Dependency function
 def get_beneficio_service() -> BeneficioService:

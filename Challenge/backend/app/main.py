@@ -2,9 +2,9 @@ import logging
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .infrastructure.middleware import setup_middleware
-from .infrastructure.routers import router as beneficios_router
-from .routers.mock import router as mock_router
+from .interfaces.middlewares import setup_middleware
+from .interfaces.routers import router as beneficios_router
+from .interfaces.routers import mock_router
 
 # Logging configuration
 logging.basicConfig(
