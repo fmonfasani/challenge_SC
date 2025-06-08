@@ -2,8 +2,8 @@ import pytest
 import httpx
 import respx
 from unittest.mock import patch, AsyncMock
-from app.services.beneficios_service import BeneficiosService, ExternalAPIError
-from app.schemas.beneficio import BeneficioResponse, BeneficioListResponse
+from app.application.services import BeneficiosService, ExternalAPIError
+from app.application.services import BeneficioResponse, BeneficioListResponse
 from fastapi import HTTPException
 
 # Datos de prueba

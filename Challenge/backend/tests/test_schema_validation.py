@@ -1,6 +1,6 @@
 import pytest
 from pydantic import ValidationError
-from app.infrastructure.schemas import BeneficioResponse, BeneficioListResponse
+from app.interfaces.schemas.schemas import BeneficioResponse, BeneficioListResponse
 from app.domain.models import Beneficio, BeneficioStatus, BeneficiosList
 
 

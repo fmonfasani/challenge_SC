@@ -4,7 +4,6 @@ import pytest
 from httpx import AsyncClient
 from fastapi import FastAPI, HTTPException
 from app.interfaces.routers import router  
-from app.application.services import BeneficioService
 from app.domain.models import Beneficio
 
 # Creamos una app de test y montamos el router
