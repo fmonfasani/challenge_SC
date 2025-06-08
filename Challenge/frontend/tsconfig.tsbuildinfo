@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/benefitcard.tsx","./src/components/benefitdetailcomponent.tsx","./src/mock/mockbenefits.ts","./src/pages/benefitsapp.tsx","./src/pages/home.tsx","./src/services/benefitsservice.ts","./src/services/favoritesservice.ts","./src/services/api.ts","./src/types/benefit.ts"],"version":"5.8.3"}

@@ -1,28 +1,67 @@
-import axios from 'axios';
-
-// Definimos el tipo de Beneficio
-export interface Beneficio {
+export interface BeneficioResponse {
   id: number;
-  nombre: string;
-  descripcion: string;
-  estado: string;
-  imagen: string;
+  name: string;
+  description: string;
+  status: string;
+  image?: string;
+  fullDescription?: string;
+  category?: string;
+  validUntil?: string;
 }
 
-// Creamos una instancia de axios con la baseURL desde el .env
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
-});
+export interface BeneficioListResponse {
+  beneficios: BeneficioResponse[];
+  total: number;
+}
 
-// GET /beneficios
-export const getBeneficios = async (): Promise<Beneficio[]> => {
-  const response = await apiClient.get<Beneficio[]>('/beneficios');
-  return response.data;
-};
+// Configuración de la API
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
-// GET /beneficios/:id
-export const getBeneficioById = async (id: number): Promise<Beneficio> => {
-  const response = await apiClient.get<Beneficio>(`/beneficios/${id}`);
-  return response.data;
-};
+class ApiService {
+  private async makeRequest<T>(endpoint: string): Promise<T> {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`API Error for ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
+  // GET /api/beneficios
+  async getBeneficios(): Promise<BeneficioListResponse> {
+    return this.makeRequest<BeneficioListResponse>("/beneficios");
+  }
+
+  // GET /api/beneficios/:id
+  async getBeneficioById(id: number): Promise<BeneficioResponse> {
+    return this.makeRequest<BeneficioResponse>(`/beneficios/${id}`);
+  }
+
+  // Health check para verificar conectividad
+  async healthCheck(): Promise<{ status: string }> {
+    try {
+      const baseUrl = API_BASE_URL.replace("/api", "");
+      const response = await fetch(`${baseUrl}/health`);
+      if (response.ok) {
+        return await response.json();
+      }
+      return { status: "error" };
+    } catch (error) {
+      return { status: "error" };
+    }
+  }
+}
+
+export const apiService = new ApiService();
