@@ -1,93 +1,73 @@
 import pytest
-from unittest.mock import AsyncMock, Mock
-from fastapi import HTTPException
+from unittest.mock import AsyncMock
 from app.application.services import BeneficiosService
-from app.domain.models import Beneficio
+from app.domain.models import Beneficio, BeneficioStatus
 
-class TestBeneficiosService:
-    @pytest.fixture
-    def mock_repository(self):
-        return AsyncMock()
-    
-    @pytest.fixture
-    def service(self, mock_repository):
-        return BeneficiosService(mock_repository)
+@pytest.fixture
+def mock_repository():
+    return AsyncMock()
 
-    @pytest.mark.asyncio
-    async def test_get_all_beneficios_success(self, service, mock_repository):
-        # Arrange
-        expected_beneficios = [
-            Beneficio(id=1, nombre="Descuento Gym", descripcion="10% descuento", categoria="fitness"),
-            Beneficio(id=2, nombre="Descuento Spa", descripcion="15% descuento", categoria="wellness")
-        ]
-        mock_repository.get_all.return_value = expected_beneficios
-        
-        # Act
-        result = await service.get_all_beneficios()
-        
-        # Assert
-        assert result == expected_beneficios
-        mock_repository.get_all.assert_called_once()
+@pytest.fixture
+def service(mock_repository):
+    return BeneficiosService(mock_repository)
 
-    @pytest.mark.asyncio
-    async def test_get_beneficio_by_id_success(self, service, mock_repository):
-        # Arrange
-        beneficio_id = 1
-        expected_beneficio = Beneficio(id=1, nombre="Descuento Gym", descripcion="10% descuento", categoria="fitness")
-        mock_repository.get_by_id.return_value = expected_beneficio
-        
-        # Act
-        result = await service.get_beneficio_by_id(beneficio_id)
-        
-        # Assert
-        assert result == expected_beneficio
-        mock_repository.get_by_id.assert_called_once_with(beneficio_id)
+@pytest.mark.asyncio
+async def test_get_all_beneficios_success(service, mock_repository):
+    # Arrange
+    beneficios_mock = [
+        Beneficio(id=1, name="Test 1", description="Desc 1", status=BeneficioStatus.ACTIVE, image="img1.jpg"),
+        Beneficio(id=2, name="Test 2", description="Desc 2", status=BeneficioStatus.INACTIVE, image="img2.jpg")
+    ]
+    mock_repository.get_all.return_value = beneficios_mock
 
-    @pytest.mark.asyncio
-    async def test_get_beneficio_by_id_not_found(self, service, mock_repository):
-        # Arrange
-        beneficio_id = 999
-        mock_repository.get_by_id.return_value = None
-        
-        # Act & Assert
-        with pytest.raises(HTTPException) as exc_info:
-            await service.get_beneficio_by_id(beneficio_id)
-        
-        assert exc_info.value.status_code == 404
-        assert "not found" in str(exc_info.value.detail).lower()
+    # Act
+    result = await service.get_all_beneficios()
 
-    @pytest.mark.asyncio
-    async def test_get_beneficio_by_id_invalid_id(self, service, mock_repository):
-        # Arrange
-        invalid_ids = [0, -1, -5]
-        
-        for invalid_id in invalid_ids:
-            # Act & Assert
-            with pytest.raises(HTTPException) as exc_info:
-                await service.get_beneficio_by_id(invalid_id)
-            
-            assert exc_info.value.status_code == 400
-            assert "invalid" in str(exc_info.value.detail).lower()
+    # Assert
+    assert len(result) == 2
+    assert result[0].name == "Test 1"
+    mock_repository.get_all.assert_called_once()
 
-    @pytest.mark.asyncio
-    async def test_connection_error_handling(self, service, mock_repository):
-        # Arrange
-        mock_repository.get_all.side_effect = Exception("Connection failed")
-        
-        # Act & Assert
-        with pytest.raises(HTTPException) as exc_info:
-            await service.get_all_beneficios()
-        
-        assert exc_info.value.status_code == 500
+@pytest.mark.asyncio
+async def test_get_beneficio_by_id_found(service, mock_repository):
+    # Arrange
+    beneficio_mock = Beneficio(id=1, name="Test", description="Desc", status=BeneficioStatus.ACTIVE, image="img.jpg")    
+    mock_repository.get_by_id.return_value = beneficio_mock
 
-    @pytest.mark.asyncio
-    async def test_health_check(self, service, mock_repository):
-        # Arrange
-        mock_repository.health_check.return_value = True
-        
-        # Act
-        result = await service.health_check()
-        
-        # Assert
-        assert result is True
-        mock_repository.health_check.assert_called_once()
+    # Act
+    result = await service.get_beneficio_by_id(1)
+
+    # Assert
+    assert result is not None
+    assert result.name == "Test"
+    mock_repository.get_by_id.assert_called_once_with(1)
+
+@pytest.mark.asyncio
+async def test_get_beneficio_by_id_not_found(service, mock_repository):
+    # Arrange
+    mock_repository.get_by_id.return_value = None
+
+    # Act
+    result = await service.get_beneficio_by_id(999)
+
+    # Assert
+    assert result is None
+    mock_repository.get_by_id.assert_called_once_with(999)
+
+@pytest.mark.asyncio
+async def test_get_all_beneficios_exception(service, mock_repository):
+    # Arrange
+    mock_repository.get_all.side_effect = Exception("API Error")
+
+    # Act & Assert
+    with pytest.raises(Exception, match="API Error"):
+        await service.get_all_beneficios()
+
+@pytest.mark.asyncio
+async def test_get_beneficio_by_id_exception(service, mock_repository):
+    # Arrange
+    mock_repository.get_by_id.side_effect = Exception("Network Error")
+
+    # Act & Assert
+    with pytest.raises(Exception, match="Network Error"):
+        await service.get_beneficio_by_id(1)

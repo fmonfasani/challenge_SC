@@ -3,9 +3,9 @@ from typing import List, Optional
 from .models import Beneficio, BeneficiosList
 
 
-class BeneficioRepository(ABC):
+class BeneficiosRepositoryPort(ABC):
     @abstractmethod
-    async def get_all(self) -> BeneficiosList:
+    async def get_all(self) -> List[Beneficio]:
         pass
 
     @abstractmethod

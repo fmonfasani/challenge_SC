@@ -3,13 +3,12 @@ import asyncio
 import httpx
 from typing import Optional, List, Dict, Any
 import logging
-from ..domain.ports import BeneficioRepository
+from ..domain.ports import BeneficiosRepositoryPort
 from ..domain.models import Beneficio, BeneficiosList, BeneficioStatus
 
 logger = logging.getLogger(__name__)
 
-
-class ExternalBeneficioRepository(BeneficioRepository):
+class ExternalBeneficioRepository(BeneficiosRepositoryPort):
     def __init__(self):
         self.base_url = os.getenv("API_BASE_URL", "http://localhost:8000/api/mock")
         self.timeout = int(os.getenv("API_TIMEOUT", "10"))
@@ -44,7 +43,7 @@ class ExternalBeneficioRepository(BeneficioRepository):
             valid_until=data.get("validUntil")
         )
 
-    async def get_all(self) -> BeneficiosList:
+    async def get_all(self) -> List[Beneficio]:
         url = f"{self.base_url}/beneficios"
         data = await self._make_request(url)
         
@@ -59,7 +58,7 @@ class ExternalBeneficioRepository(BeneficioRepository):
             except Exception as e:
                 logger.warning(f"Skipping invalid beneficio: {e}")
         
-        return BeneficiosList(beneficios=beneficios, total=len(beneficios))
+        return beneficios
 
     async def get_by_id(self, beneficio_id: int) -> Optional[Beneficio]:
         url = f"{self.base_url}/beneficios/{beneficio_id}"
