@@ -1,7 +1,14 @@
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Beneficio } from '../services/api'; 
 
-const BeneficioCard = ({ beneficio, isFavorite, toggleFavorite }) => {
+interface BeneficioCardProps {
+  beneficio: Beneficio;
+  isFavorite: boolean;
+  toggleFavorite: (id: number) => void;
+}
+
+const BeneficioCard: React.FC<BeneficioCardProps> = ({ beneficio, isFavorite, toggleFavorite }) => {
   return (
     <div className="border rounded-lg p-4 flex flex-col justify-between shadow hover:shadow-lg transition">
       <img
@@ -28,3 +35,4 @@ const BeneficioCard = ({ beneficio, isFavorite, toggleFavorite }) => {
 };
 
 export default BeneficioCard;
+

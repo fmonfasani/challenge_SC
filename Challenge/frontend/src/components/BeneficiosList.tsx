@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getBeneficios } from '../services/api';
+import { getBeneficios, Beneficio } from '../services/api';
 import BeneficioCard from './BeneficioCard';
 
-const BeneficiosList = () => {
-  const [beneficios, setBeneficios] = useState([]);
-  const [search, setSearch] = useState('');
-  const [filterStatus, setFilterStatus] = useState('todos');
-  const [favorites, setFavorites] = useState(() => {
+const BeneficiosList: React.FC = () => {
+  const [beneficios, setBeneficios] = useState<Beneficio[]>([]);
+  const [search, setSearch] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>('todos');
+  const [favorites, setFavorites] = useState<number[]>(() => {
     const favs = localStorage.getItem('favoritos');
     return favs ? JSON.parse(favs) : [];
   });
@@ -17,7 +17,7 @@ const BeneficiosList = () => {
     });
   }, []);
 
-  const toggleFavorite = (id) => {
+  const toggleFavorite = (id: number) => {
     let updatedFavorites;
     if (favorites.includes(id)) {
       updatedFavorites = favorites.filter(favId => favId !== id);
@@ -69,3 +69,4 @@ const BeneficiosList = () => {
 };
 
 export default BeneficiosList;
+

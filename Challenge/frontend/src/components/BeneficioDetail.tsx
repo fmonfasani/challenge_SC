@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBeneficioById } from '../services/api';
+import { getBeneficioById, Beneficio } from '../services/api';
 
-const BeneficioDetail = () => {
-  const { id } = useParams();
+const BeneficioDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [beneficio, setBeneficio] = useState(null);
+  const [beneficio, setBeneficio] = useState<Beneficio | null>(null);
 
   useEffect(() => {
-    getBeneficioById(id).then((data) => setBeneficio(data));
+    if (id) {
+      getBeneficioById(Number(id)).then((data) => setBeneficio(data));
+    }
   }, [id]);
 
   if (!beneficio) {
