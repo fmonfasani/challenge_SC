@@ -29,14 +29,14 @@ async def logging_middleware(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     return response
 
+# ✅ Función agregada que faltaba
 def setup_middlewares(app):
-    
     """
     Setup all middlewares for the FastAPI app.
     """
-    
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
     app.middleware("http")(logging_middleware)
-    
 
+# ✅ Alias para compatibilidad con main.py
+setup_middleware = setup_middlewares

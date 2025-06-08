@@ -2,9 +2,9 @@ import logging
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .interfaces.middlewares import setup_middleware
-from .interfaces.routers import router as beneficios_router
-from .interfaces.routers import mock_router
+from app.interfaces.middlewares import setup_middleware  # ✅ Import corregido
+from app.interfaces.routers import router as beneficios_router
+from app.interfaces.routers.mock_router import mock_router  # ✅ Import corregido
 
 # Logging configuration
 logging.basicConfig(
@@ -29,13 +29,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Custom middleware
+# Custom middleware - 
 setup_middleware(app)
 
 # Routers
 app.include_router(beneficios_router)
-app.include_router(mock_router, prefix="/api")
-
+app.include_router(mock_router, prefix="/api")  
 
 @app.get("/")
 async def root():
