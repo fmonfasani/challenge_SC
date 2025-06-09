@@ -59,7 +59,12 @@ cd backend && pytest tests/ -v --cov=app
 cd frontend && npm run lint
 ```
 
-**Docker (opción más rápida - imágenes pre-construidas):**
+**Docker**
+Esta opcion, la podemos contar como una tercera opcion, en cuanto a que se puede analizar 
+el proyecto con el despliegue de docker o con las imagenes ya subidas al repositorio, esta es una opción 
+más rápida y si se levanta de las imagenes preconstruidas tambien ya que las hice publicas para que se 
+puede levantar desde cualquier terminal.
+
 ```bash
 # Desarrollo: Frontend -> Backend mock
 docker-compose up
@@ -79,6 +84,21 @@ docker-compose up --build
 **Build local (si prefieres):**
 ```bash
 docker-compose up --build
+```
+
+## Imágenes preconstruidad lias de Docker 
+
+# Desarrollo:
+```bash
+ghcr.io/fmonfasani/sportclub-backend + frontend
+docker-compose up
+```
+
+# Producción: 
+
+Solo frontend -> API SportClub directa  
+```bash
+docker-compose -f docker-compose.prod.yml up
 ```
 
 Acceso: Frontend http://localhost:3000 | API http://localhost:8000/docs
