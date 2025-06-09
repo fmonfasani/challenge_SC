@@ -60,6 +60,15 @@ cd backend && pytest tests/ -v --cov=app
 cd frontend && npm run lint
 ```
 
+# Test OPEN API
+Gracias a los Schemas y decoradores con Fast API se puede documentar y haces test al CRUD de manera sencilla, 
+para acceder a la documentacion vamos al endpoint http://localhost:8000/docs y realizamos los siguientes test:
+
+GET /api/beneficios → Click "Try it out" → "Execute"
+GET /api/beneficios/{id} → Poner ID (ej: 1) → "Execute"
+GET /health → Health check
+GET /api/mock/beneficios → Mock data
+
 **Docker**
 
 Esta opción representa una tercera alternativa para evaluar el proyecto. Permite analizar
