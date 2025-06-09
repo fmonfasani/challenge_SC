@@ -61,10 +61,11 @@ cd frontend && npm run lint
 ```
 
 **Docker**
-Esta opción, la podemos contar como una tercera opción, en cuanto a que se puede analizar 
-el proyecto con el despliegue de docker o con las imágenes ya subidas al repositorio, esta es una opción 
-más rápida y si se levanta de las imágenes preconstruidas también ya que las hice públicas para que se 
-pueda levantar desde cualquier terminal.
+
+Esta opción representa una tercera alternativa para evaluar el proyecto. Permite analizar
+la aplicación mediante despliegue local con Docker o utilizando las imágenes ya subidas al repositorio.
+Es la opción más rápida para evaluar el proyecto, especialmente con las imágenes preconstruidas
+que están disponibles públicamente para ejecutar desde cualquier terminal.
 
 ```bash
 # Desarrollo: Frontend -> Backend mock
