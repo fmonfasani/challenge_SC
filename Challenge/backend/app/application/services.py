@@ -16,7 +16,7 @@ class BeneficiosService:
             beneficios = await self.repository.get_all()
             logger.info(f"Se obtuvieron {len(beneficios)} beneficios")
             
-            # Retornamos BeneficiosList en lugar de solo la lista
+            
             return BeneficiosList(
                 beneficios=beneficios,
                 total=len(beneficios)

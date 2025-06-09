@@ -4,19 +4,17 @@ from app.interfaces.schemas.schemas import BeneficioResponse, BeneficioListRespo
 
 class TestSchemaValidation:
     def test_beneficio_response_valid_data(self):
-        # Arrange - Usando los nombres correctos de campos
+        
         valid_data = {
             "id": 1,
-            "name": "Descuento Gym",  # Cambiado de "nombre" a "name"
-            "description": "10% de descuento en mensualidad",  # Cambiado de "descripcion"
-            "status": "active",  # Agregado campo requerido
+            "name": "Descuento Gym",  
+            "description": "10% de descuento en mensualidad",  
+            "status": "active",  
             "category": "fitness"
-        }
+        }       
         
-        # Act
-        beneficio = BeneficioResponse(**valid_data)
+        beneficio = BeneficioResponse(**valid_data)        
         
-        # Assert
         assert beneficio.id == 1
         assert beneficio.name == "Descuento Gym"
         assert beneficio.description == "10% de descuento en mensualidad"
@@ -24,14 +22,14 @@ class TestSchemaValidation:
         assert beneficio.status == "active"
 
     def test_beneficio_list_response_valid_data(self):
-        # Arrange - Usando los nombres correctos de campos
+        
         valid_data = {
             "beneficios": [
                 {
                     "id": 1,
-                    "name": "Descuento Gym",  # Corregido
-                    "description": "10% descuento",  # Corregido
-                    "status": "active",  # Agregado
+                    "name": "Descuento Gym",  
+                    "description": "10% descuento",  
+                    "status": "active",  
                     "category": "fitness"
                 }
             ],
@@ -65,7 +63,7 @@ class TestSchemaValidation:
         invalid_data = {
             "id": 1,
             "name": "Test"
-            # Faltan: description, status
+            
         }
         
         # Act & Assert

@@ -8,7 +8,7 @@ from app.main import app
 async def test_get_all_beneficios():
     """Test get all beneficios endpoint"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/api/beneficios")  # Ruta corregida
+        response = await ac.get("/api/beneficios") 
         assert response.status_code == 200
         data = response.json()
         assert isinstance(data, dict)
@@ -21,8 +21,8 @@ async def test_get_all_beneficios():
 async def test_get_beneficio_by_id_success():
     """Test get beneficio by ID - success case"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/api/beneficios/1")  # Ruta corregida
-        # Should return 200 if found or 404 if not found
+        response = await ac.get("/api/beneficios/1")  
+        
         assert response.status_code in [200, 404]
         if response.status_code == 200:
             data = response.json()
@@ -33,7 +33,7 @@ async def test_get_beneficio_by_id_success():
 async def test_get_beneficio_by_id_not_found():  
     """Test get beneficio by ID - not found case"""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-        response = await ac.get("/api/beneficios/999999")  # Ruta corregida
+        response = await ac.get("/api/beneficios/999999")  #
         assert response.status_code == 404
 
 
@@ -48,7 +48,7 @@ async def test_get_all_beneficios_with_mock():
         "total": 2
     }
     
-    # Mockeamos el servicio en el lugar correcto
+    
     with patch('app.application.services.BeneficiosService.get_all_beneficios') as mock_service:
         from app.domain.models import BeneficiosList, Beneficio, BeneficioStatus
         

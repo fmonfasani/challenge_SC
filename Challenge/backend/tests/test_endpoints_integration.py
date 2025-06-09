@@ -32,10 +32,10 @@ class TestBeneficiosEndpoints:
         ]
         mock_get_all.return_value = mock_beneficios
         
-        # Act
+        
         response = client.get("/api/beneficios")
         
-        # Assert
+        
         assert response.status_code == 200
         data = response.json()
         assert "beneficios" in data
@@ -47,7 +47,7 @@ class TestBeneficiosEndpoints:
     @patch('app.infrastructure.repositories.ExternalBeneficioRepository.get_by_id')
     def test_get_beneficio_by_id_success(self, mock_get_by_id):
         """Test exitoso del endpoint GET /api/beneficios/{id}"""
-        # Arrange
+        
         from app.domain.models import Beneficio, BeneficioStatus
         
         mock_beneficio = Beneficio(
@@ -59,10 +59,10 @@ class TestBeneficiosEndpoints:
         )
         mock_get_by_id.return_value = mock_beneficio
         
-        # Act
+        
         response = client.get("/api/beneficios/1")
         
-        # Assert
+        
         assert response.status_code == 200
         data = response.json()
         assert data["id"] == 1
@@ -72,13 +72,11 @@ class TestBeneficiosEndpoints:
     @patch('app.infrastructure.repositories.ExternalBeneficioRepository.get_by_id')
     def test_get_beneficio_by_id_not_found(self, mock_get_by_id):
         """Test del endpoint GET /api/beneficios/{id} cuando no encuentra el beneficio"""
-        # Arrange
+        
         mock_get_by_id.return_value = None
         
-        # Act
         response = client.get("/api/beneficios/999")
         
-        # Assert
         assert response.status_code == 404
         data = response.json()
         assert "detail" in data

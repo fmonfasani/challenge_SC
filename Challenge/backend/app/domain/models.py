@@ -20,14 +20,14 @@ class Beneficio:
     def to_dict(self) -> dict:
         return {
             'id': self.id,
-            'nombre': self.name,  # Corregido: usar self.name
-            'descripcion': self.description,  # Corregido: usar self.description
-            'imagen': self.image,  # Corregido: usar self.image
-            'activo': self.is_active(),  # Corregido: usar método is_active()
-            'estado': self.status.value,  # Agregado: estado original
-            'descripcion_completa': self.full_description,  # Agregado
-            'categoria': self.category,  # Agregado
-            'valido_hasta': self.valid_until  # Agregado
+            'nombre': self.name,  
+            'descripcion': self.description, 
+            'imagen': self.image,  
+            'activo': self.is_active(),  
+            'estado': self.status.value, 
+            'descripcion_completa': self.full_description,  
+            'categoria': self.category,  
+            'valido_hasta': self.valid_until  
         }
 
     def is_active(self) -> bool:
