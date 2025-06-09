@@ -118,7 +118,7 @@ const BenefitsApp: React.FC = () => {
         <div className="max-w-7xl mx-auto p-6">
           <div className="flex justify-between items-center">
             <h1 className="text-4xl font-bold text-gray-900">
-              Beneficios Sport
+              Beneficios SPORT CLUB
             </h1>
             <div className="flex items-center gap-4">
               {/* Indicador de fuente de datos */}
