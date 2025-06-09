@@ -11,16 +11,12 @@ export class BenefitsService {
   private static readonly API_BASE_URL =
     import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
-  /**
-   * Obtiene todos los beneficios (intenta API primero, fallback a mock)
-   */
   static async getAllBenefits(): Promise<BenefitsResult> {
     console.log("🔍 BenefitsService: Iniciando getAllBenefits()");
     console.log("🔍 API_BASE_URL:", this.API_BASE_URL);
     console.log("🔍 VITE_API_URL env:", import.meta.env.VITE_API_URL);
 
     try {
-      // Primero verificamos health check
       console.log("🔍 Intentando health check...");
       const healthUrl = `${this.API_BASE_URL.replace("/api", "")}/health`;
       console.log("🔍 Health URL:", healthUrl);
@@ -41,7 +37,6 @@ export class BenefitsService {
       const healthData = await healthResponse.json();
       console.log("🔍 Health check successful:", healthData);
 
-      // Si health check pasa, intentamos obtener beneficios
       console.log("🔍 Intentando obtener beneficios...");
       const beneficiosUrl = `${this.API_BASE_URL}/beneficios`;
       console.log("🔍 Beneficios URL:", beneficiosUrl);
@@ -68,21 +63,17 @@ export class BenefitsService {
       const data = await response.json();
       console.log("🔍 API Response data:", data);
 
-      // Verificar estructura de la respuesta
       if (!data || typeof data !== "object") {
         throw new Error("Invalid response format: not an object");
       }
 
-      // Adaptar los datos
       let benefits: Benefit[];
       let total: number;
 
       if (Array.isArray(data)) {
-        // Si la respuesta es un array directo
         benefits = data.map((item: any) => this.adaptBenefitData(item));
         total = benefits.length;
       } else if (data.beneficios && Array.isArray(data.beneficios)) {
-        // Si la respuesta tiene estructura {beneficios: [...], total: X}
         benefits = data.beneficios.map((item: any) =>
           this.adaptBenefitData(item)
         );
@@ -106,9 +97,6 @@ export class BenefitsService {
     }
   }
 
-  /**
-   * Adapta datos del backend al formato del frontend
-   */
   private static adaptBenefitData(item: any): Benefit {
     return {
       id: item.id,
@@ -125,9 +113,6 @@ export class BenefitsService {
     };
   }
 
-  /**
-   * Obtiene un beneficio por ID
-   */
   static async getBenefitById(id: number): Promise<Benefit | null> {
     console.log("🔍 BenefitsService: Obteniendo beneficio por ID:", id);
 
@@ -153,9 +138,6 @@ export class BenefitsService {
     }
   }
 
-  /**
-   * Retorna datos mock
-   */
   private static getMockBenefits(): BenefitsResult {
     console.log("📦 Usando datos mock, total:", mockBenefits.length);
     return {

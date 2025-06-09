@@ -35,7 +35,7 @@ const BenefitsApp: React.FC = () => {
         setFavorites(FavoritesService.getFavorites());
 
         console.log(
-          `✅ Cargados ${result.total} beneficios desde ${result.source}`
+          `Cargados ${result.total} beneficios desde ${result.source}`
         );
       } catch (err) {
         console.error("Error cargando beneficios:", err);
