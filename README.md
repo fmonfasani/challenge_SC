@@ -13,14 +13,23 @@ cp .env.example .env
 
 **IMPORTANTE - Variables de entorno:** Editar `backend/.env`:
 ```
-Este proyecto esta realizado con dos alternativas, una para usar con
-datos harcodeados y probar el frontend la vista y la optra es con la
-URL que nos proporciona la instruccion del Challenge.
+Este proyecto cuenta con dos modalidades para poder analizar:
 
-# Para usar mock local (recomendado):
+1 - Una opción utiliza datos hardcodeados para probar directamente la vista renderizada del frontend.
+En esta opcion, tenemos datos de los beneficios harcodeados tanto en el front como en el back, cuando no
+se puede comunicar a la API del backend, se renderiza los datos harcodeados del frontend, si la conexion es
+exitosa al la api del backend, se renderiza los datos de beneficios harcodeados pero de la api del backend.
+En el caso de que no haya conexion con la api del backend, probeblemente sea un error de la variable de entorno.
+Asimismo agregue una ayuda visual para ver si estamos conectados o no a la API del Backend, cuando aparece
+🟢 API Backend o 🟡 Datos Mock en la parte superior derecha, te indica si se conecta o no a la API, tanto en
+la opcion 1 como en la 2.
+
+2 - La otra se conecta a la URL proporcionada en las instrucciones del Challenge para trabajar la API de SP (SportClub).
+
+# Para la opcion 1 tenemos que modificar los datos .env del frontend de esta manera:
 API_BASE_URL=http://localhost:8000/api/mock/
 
-# Para usar API real:
+# Para probar la API de SportClub, simplemente se usa la URL del challenge:
 API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
 ```
 
