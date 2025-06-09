@@ -17,26 +17,25 @@ Este proyecto cuenta con dos modalidades para poder analizar:
 
 1 - Una opción utiliza datos hardcodeados para probar directamente la vista renderizada
     del frontend.
-    En esta opcion, tenemos datos de los beneficios harcodeados tanto en el front como en
+    En esta opción, tenemos datos de los beneficios hardcodeados tanto en el front como en
     el back, cuando no se puede comunicar a la API del backend, se renderiza los datos
-    harcodeados del frontend, si la conexion es exitosa al la api del backend, se renderiza
-    los datos de beneficios harcodeados pero de la api del backend.
+    hardcodeados del frontend, si la conexión es exitosa a la API del backend, se renderiza
+    los datos de beneficios hardcodeados pero de la API del backend.
 
-    En el caso de que no haya conexion con la api del backend, probeblemente sea un error
-    de la variable de entorno. Asimismo agregue una ayuda visual para ver si estamos
+    En el caso de que no haya conexión con la API del backend, probablemente sea un error
+    de la variable de entorno. Asimismo agregué una ayuda visual para ver si estamos
     conectados o no a la API del Backend, cuando aparece 🟢 API Backend o 🟡 Datos Mock
-    en la parte superior derecha, te indica si se conecta o no a la API, tanto en la opcion
+    en la parte superior derecha, te indica si se conecta o no a la API, tanto en la opción
     1 como en la 2.
 
 2 - La otra se conecta a la URL proporcionada en las instrucciones del Challenge para trabajar
     la API de SP (SportClub).
 
-# Para la opcion 1 tenemos que modificar los datos .env del frontend de esta manera:
+### Para la opción 1 tenemos que modificar los datos .env del backend de esta manera:
 API_BASE_URL=http://localhost:8000/api/mock/
 
-# Para probar la API de SportClub, simplemente se usa la URL del challenge:
+### Para probar la API de SportClub, simplemente se usa la URL del challenge:
 API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
-
 
 **Ejecutar backend:**
 ```bash
@@ -60,10 +59,10 @@ cd frontend && npm run lint
 ```
 
 **Docker**
-Esta opcion, la podemos contar como una tercera opcion, en cuanto a que se puede analizar 
-el proyecto con el despliegue de docker o con las imagenes ya subidas al repositorio, esta es una opción 
-más rápida y si se levanta de las imagenes preconstruidas tambien ya que las hice publicas para que se 
-puede levantar desde cualquier terminal.
+Esta opción, la podemos contar como una tercera opción, en cuanto a que se puede analizar 
+el proyecto con el despliegue de docker o con las imágenes ya subidas al repositorio, esta es una opción 
+más rápida y si se levanta de las imágenes preconstruidas también ya que las hice públicas para que se 
+pueda levantar desde cualquier terminal.
 
 ```bash
 # Desarrollo: Frontend -> Backend mock
@@ -81,12 +80,7 @@ no responde.
 docker-compose up --build
 ```
 
-**Build local (si prefieres):**
-```bash
-docker-compose up --build
-```
-
-## Imágenes preconstruidad lias de Docker 
+## Imágenes preconstruidas listas de Docker 
 
 # Desarrollo:
 ```bash
