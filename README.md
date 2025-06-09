@@ -15,16 +15,21 @@ cp .env.example .env
 ```
 Este proyecto cuenta con dos modalidades para poder analizar:
 
-1 - Una opción utiliza datos hardcodeados para probar directamente la vista renderizada del frontend.
-En esta opcion, tenemos datos de los beneficios harcodeados tanto en el front como en el back, cuando no
-se puede comunicar a la API del backend, se renderiza los datos harcodeados del frontend, si la conexion es
-exitosa al la api del backend, se renderiza los datos de beneficios harcodeados pero de la api del backend.
-En el caso de que no haya conexion con la api del backend, probeblemente sea un error de la variable de entorno.
-Asimismo agregue una ayuda visual para ver si estamos conectados o no a la API del Backend, cuando aparece
-🟢 API Backend o 🟡 Datos Mock en la parte superior derecha, te indica si se conecta o no a la API, tanto en
-la opcion 1 como en la 2.
+1 - Una opción utiliza datos hardcodeados para probar directamente la vista renderizada
+    del frontend.
+    En esta opcion, tenemos datos de los beneficios harcodeados tanto en el front como en
+    el back, cuando no se puede comunicar a la API del backend, se renderiza los datos
+    harcodeados del frontend, si la conexion es exitosa al la api del backend, se renderiza
+    los datos de beneficios harcodeados pero de la api del backend.
 
-2 - La otra se conecta a la URL proporcionada en las instrucciones del Challenge para trabajar la API de SP (SportClub).
+    En el caso de que no haya conexion con la api del backend, probeblemente sea un error
+    de la variable de entorno. Asimismo agregue una ayuda visual para ver si estamos
+    conectados o no a la API del Backend, cuando aparece 🟢 API Backend o 🟡 Datos Mock
+    en la parte superior derecha, te indica si se conecta o no a la API, tanto en la opcion
+    1 como en la 2.
+
+2 - La otra se conecta a la URL proporcionada en las instrucciones del Challenge para trabajar
+    la API de SP (SportClub).
 
 # Para la opcion 1 tenemos que modificar los datos .env del frontend de esta manera:
 API_BASE_URL=http://localhost:8000/api/mock/
@@ -63,7 +68,8 @@ docker-compose up
 docker-compose -f docker-compose.prod.yml up
 ```
 
-Abrir http://localhost:3000 en el navegador. La aplicación funciona con datos mock si la API real no responde.
+Abrir http://localhost:3000 en el navegador. La aplicación funciona con datos mock si la API del challenge
+no responde.
 
 **Build local (si prefieres):**
 ```bash
@@ -84,7 +90,9 @@ Acceso: Frontend http://localhost:3000 | API http://localhost:8000/docs
 ## Descripción Técnica
 
 ### Arquitectura Backend
-Implementa Clean Architecture con FastAPI separando domain, application e infrastructure. El servicio actúa como intermediario entre el frontend y la API externa de SportClub, con fallback automático a datos mock.
+Implementa Clean Architecture con FastAPI separando domain, application e infrastructure. 
+El servicio actúa como intermediario entre el frontend y la API externa de SportClub, 
+con fallback automático a datos mock.
 
 **Tecnologías:**
 - Python 3.12, FastAPI, Pydantic
@@ -99,7 +107,8 @@ Implementa Clean Architecture con FastAPI separando domain, application e infras
 - `GET /docs` - Documentación OpenAPI
 
 ### Arquitectura Frontend
-Aplicación React con TypeScript usando componentes funcionales y hooks. Implementa lazy loading, paginación y sistema de favoritos persistente.
+Aplicación React con TypeScript usando componentes funcionales y hooks. 
+Implementa lazy loading, paginación y sistema de favoritos persistente.
 
 **Tecnologías:**
 - React 19, TypeScript, Vite
@@ -116,10 +125,12 @@ Aplicación React con TypeScript usando componentes funcionales y hooks. Impleme
 - Diseño responsive
 
 ### Testing y Calidad
-Backend con >90% cobertura incluyendo tests unitarios, integración y manejo de errores. Frontend con ESLint y validación TypeScript.
+Backend con tests unitarios, integración y manejo de errores. 
+Frontend con ESLint y validación TypeScript.
 
 ### Despliegue
-Configuración dual: desarrollo con backend mock local, producción conectando directamente a API SportClub.
+Configuración dual: desarrollo con backend mock local, 
+producción conectando directamente a API SportClub.
 
 **Imágenes Docker listas:**
 ```bash
