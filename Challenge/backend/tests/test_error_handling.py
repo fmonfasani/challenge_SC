@@ -5,12 +5,11 @@ from app.main import app
 
 client = TestClient(app)
 
-class TestErrorHandling:
-    """Tests críticos para manejo de errores según el challenge"""
+class TestErrorHandling:    
     
     @patch('app.application.services.BeneficiosService.get_all_beneficios')
     def test_api_down_error_handling(self, mock_service):
-        """Test: Manejar API caída"""
+        
         mock_service.side_effect = Exception("API caída")
         
         response = client.get("/api/beneficios")
@@ -19,7 +18,7 @@ class TestErrorHandling:
 
     @patch('app.application.services.BeneficiosService.get_beneficio_by_id')  
     def test_timeout_error_handling(self, mock_service):
-        """Test: Manejar timeouts"""
+        
         mock_service.side_effect = Exception("Timeout")
         
         response = client.get("/api/beneficios/1")

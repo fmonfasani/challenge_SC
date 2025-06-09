@@ -9,27 +9,20 @@ from slowapi.errors import RateLimitExceeded
 
 logger = logging.getLogger(__name__)
 
-# Rate limiter instance
 limiter = Limiter(key_func=get_remote_address)
 
 async def logging_middleware(request: Request, call_next):
     start_time = time.time()
     
-    # Log request
-    logger.info(f"Request: {request.method} {request.url}")
-    
-    # Process request
-    response = await call_next(request)
-    
-    # Log response
+    logger.info(f"Request: {request.method} {request.url}")    
+    response = await call_next(request)    
+
     process_time = time.time() - start_time
     logger.info(f"Response: {response.status_code} - {process_time:.3f}s")
-    
-    # Add custom response headers
+        
     response.headers["X-Process-Time"] = str(process_time)
     return response
 
-# ✅ Función agregada que faltaba
 def setup_middlewares(app):
     """
     Setup all middlewares for the FastAPI app.
@@ -38,5 +31,4 @@ def setup_middlewares(app):
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
     app.middleware("http")(logging_middleware)
 
-# ✅ Alias para compatibilidad con main.py
-setup_middleware = setup_middlewares
+#setup_middleware = setup_middlewares

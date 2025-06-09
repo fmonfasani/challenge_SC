@@ -15,8 +15,8 @@ class TestPerformance:
         end_time = time.time()
         
         response_time = end_time - start_time
-        assert response_time < 2.0  # Should respond in less than 2 seconds
-        assert response.status_code in [200, 404]  # Either works or service unavailable
+        assert response_time < 2.0  
+        assert response.status_code in [200, 404] 
 
     def test_concurrent_requests(self, client):
         def make_request():
@@ -28,6 +28,6 @@ class TestPerformance:
             response = make_request()
             responses.append(response)
         
-        # All requests should complete without server errors
+        
         for response in responses:
             assert response.status_code != 500

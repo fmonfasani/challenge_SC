@@ -11,19 +11,9 @@ export class BenefitsService {
   private static readonly API_BASE_URL =
     import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
-  /**
-   * Obtiene todos los beneficios (intenta API primero, fallback a mock)
-   */
   static async getAllBenefits(): Promise<BenefitsResult> {
-    console.log("🔍 BenefitsService: Iniciando getAllBenefits()");
-    console.log("🔍 API_BASE_URL:", this.API_BASE_URL);
-    console.log("🔍 VITE_API_URL env:", import.meta.env.VITE_API_URL);
-
     try {
-      // Primero verificamos health check
-      console.log("🔍 Intentando health check...");
       const healthUrl = `${this.API_BASE_URL.replace("/api", "")}/health`;
-      console.log("🔍 Health URL:", healthUrl);
 
       const healthResponse = await fetch(healthUrl, {
         method: "GET",
@@ -41,7 +31,6 @@ export class BenefitsService {
       const healthData = await healthResponse.json();
       console.log("🔍 Health check successful:", healthData);
 
-      // Si health check pasa, intentamos obtener beneficios
       console.log("🔍 Intentando obtener beneficios...");
       const beneficiosUrl = `${this.API_BASE_URL}/beneficios`;
       console.log("🔍 Beneficios URL:", beneficiosUrl);
@@ -53,9 +42,9 @@ export class BenefitsService {
         },
       });
 
-      console.log("🔍 Beneficios response status:", response.status);
+      console.log(" Beneficios response status:", response.status);
       console.log(
-        "🔍 Beneficios response headers:",
+        " Beneficios response headers:",
         Object.fromEntries(response.headers.entries())
       );
 
@@ -66,23 +55,18 @@ export class BenefitsService {
       }
 
       const data = await response.json();
-      console.log("🔍 API Response data:", data);
 
-      // Verificar estructura de la respuesta
       if (!data || typeof data !== "object") {
         throw new Error("Invalid response format: not an object");
       }
 
-      // Adaptar los datos
       let benefits: Benefit[];
       let total: number;
 
       if (Array.isArray(data)) {
-        // Si la respuesta es un array directo
         benefits = data.map((item: any) => this.adaptBenefitData(item));
         total = benefits.length;
       } else if (data.beneficios && Array.isArray(data.beneficios)) {
-        // Si la respuesta tiene estructura {beneficios: [...], total: X}
         benefits = data.beneficios.map((item: any) =>
           this.adaptBenefitData(item)
         );
@@ -91,24 +75,18 @@ export class BenefitsService {
         throw new Error("Invalid response format: no beneficios array found");
       }
 
-      console.log("✅ Datos obtenidos del backend exitosamente");
-      console.log("✅ Beneficios procesados:", benefits.length);
-
       return {
         benefits,
         total,
         source: "api",
       };
     } catch (error) {
-      console.warn("❌ Error conectando con el backend:", error);
-      console.warn("🔄 Usando datos mock como fallback");
+      console.warn(" Error conectando con el backend:", error);
+      console.warn(" Usando datos mock como fallback");
       return this.getMockBenefits();
     }
   }
 
-  /**
-   * Adapta datos del backend al formato del frontend
-   */
   private static adaptBenefitData(item: any): Benefit {
     return {
       id: item.id,
@@ -125,39 +103,33 @@ export class BenefitsService {
     };
   }
 
-  /**
-   * Obtiene un beneficio por ID
-   */
   static async getBenefitById(id: number): Promise<Benefit | null> {
-    console.log("🔍 BenefitsService: Obteniendo beneficio por ID:", id);
+    console.log("BenefitsService: Obteniendo beneficio por ID:", id);
 
     try {
       const url = `${this.API_BASE_URL}/beneficios/${id}`;
-      console.log("🔍 Benefit by ID URL:", url);
+      console.log(" Benefit by ID URL:", url);
 
       const response = await fetch(url);
-      console.log("🔍 Benefit by ID response status:", response.status);
+      console.log(" Benefit by ID response status:", response.status);
 
       if (!response.ok) {
         throw new Error(`API request failed: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("🔍 Benefit by ID data:", data);
+      console.log(" Benefit by ID data:", data);
 
       return this.adaptBenefitData(data);
     } catch (error) {
-      console.warn("❌ Error obteniendo beneficio por ID:", error);
-      console.warn("🔄 Usando mock como fallback");
+      console.warn(" Error obteniendo beneficio por ID:", error);
+      console.warn(" Usando mock como fallback");
       return mockBenefits.find((benefit) => benefit.id === id) || null;
     }
   }
 
-  /**
-   * Retorna datos mock
-   */
   private static getMockBenefits(): BenefitsResult {
-    console.log("📦 Usando datos mock, total:", mockBenefits.length);
+    console.log(" Usando datos mock, total:", mockBenefits.length);
     return {
       benefits: mockBenefits,
       total: mockBenefits.length,

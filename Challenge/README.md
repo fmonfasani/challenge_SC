@@ -2,7 +2,7 @@
 
 # Benefits Frontend
 
-Aplicación frontend para la gestión de beneficios corporativos.
+Aplicación frontend para la gestión de beneficios.
 
 ## Características
 

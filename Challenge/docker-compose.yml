@@ -20,9 +20,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - VITE_API_URL=http://backend:8000/api # Para comunicación interna
+      - VITE_API_URL=http://backend:8000/api # URL de uso local para el mock,
     env_file:
-      - ./frontend/.env # Para desarrollo local
+      - ./frontend/.env
     depends_on:
       - backend
     restart: unless-stopped

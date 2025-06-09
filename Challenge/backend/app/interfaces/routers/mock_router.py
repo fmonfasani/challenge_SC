@@ -3,10 +3,11 @@
 from fastapi import APIRouter, HTTPException, Path
 from typing import List, Dict, Any
 
-# Router para endpoints mock
+
 mock_router = APIRouter(prefix="/mock", tags=["mock"])
 
-# Datos mock realistas para el challenge
+# Moock para probar la conexion entre le backend y el frontend, 
+# Para la URL de la API real, ajustar el endpoint en el frontend
 MOCK_BENEFICIOS = [
     {
         "id": 1,
