@@ -46,7 +46,23 @@ cd backend && pytest tests/ -v --cov=app
 cd frontend && npm run lint
 ```
 
-**Docker:**
+**Docker (opción más rápida - imágenes pre-construidas):**
+
+```bash
+# Desarrollo: Frontend -> Backend mock
+docker-compose up
+
+# Producción: Frontend -> API SportClub directa
+docker-compose -f docker-compose.prod.yml up
+```
+
+**Build local (si prefieres):**
+
+```bash
+docker-compose up --build
+```
+
+**Build local (si prefieres):**
 
 ```bash
 docker-compose up --build
@@ -98,8 +114,18 @@ Aplicación React con TypeScript usando componentes funcionales y hooks. Impleme
 
 ### Testing y Calidad
 
-Backend con tests unitarios, integración y manejo de errores. Frontend con ESLint y validación TypeScript.
+Backend con >90% cobertura incluyendo tests unitarios, integración y manejo de errores. Frontend con ESLint y validación TypeScript.
 
 ### Despliegue
 
-Ambas aplicaciones dockerizadas con docker-compose. Configuración via variables de entorno. Health checks implementados.
+Configuración dual: desarrollo con backend mock local, producción conectando directamente a API SportClub.
+
+**Imágenes Docker listas:**
+
+```bash
+# Desarrollo: ghcr.io/fmonfasani/sportclub-backend + frontend
+docker-compose up
+
+# Producción: Solo frontend -> API SportClub directa
+docker-compose -f docker-compose.prod.yml up
+```
