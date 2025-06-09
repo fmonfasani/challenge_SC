@@ -42,6 +42,8 @@ Este proyecto cuenta con dos modalidades para poder analizar:
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+## Instalación y Ejecución del frontend
+
 **Frontend:**
 ```bash
 cd frontend
