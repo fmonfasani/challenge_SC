@@ -15,20 +15,7 @@ class Beneficio:
     image: Optional[str] = None
     full_description: Optional[str] = None
     category: Optional[str] = None
-    valid_until: Optional[str] = None
-
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'nombre': self.name,  
-            'descripcion': self.description, 
-            'imagen': self.image,  
-            'activo': self.is_active(),  
-            'estado': self.status.value, 
-            'descripcion_completa': self.full_description,  
-            'categoria': self.category,  
-            'valido_hasta': self.valid_until  
-        }
+    valid_until: Optional[str] = None    
 
     def is_active(self) -> bool:
         return self.status == BeneficioStatus.ACTIVE

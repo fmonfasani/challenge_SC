@@ -6,7 +6,7 @@ from app.main import app
 
 @pytest.mark.asyncio
 async def test_get_all_beneficios():
-    """Test get all beneficios endpoint"""
+    
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/api/beneficios") 
         assert response.status_code == 200
@@ -19,7 +19,7 @@ async def test_get_all_beneficios():
 
 @pytest.mark.asyncio
 async def test_get_beneficio_by_id_success():
-    """Test get beneficio by ID - success case"""
+    
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/api/beneficios/1")  
         
@@ -31,7 +31,7 @@ async def test_get_beneficio_by_id_success():
 
 @pytest.mark.asyncio
 async def test_get_beneficio_by_id_not_found():  
-    """Test get beneficio by ID - not found case"""
+    
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.get("/api/beneficios/999999")  #
         assert response.status_code == 404
@@ -39,7 +39,7 @@ async def test_get_beneficio_by_id_not_found():
 
 @pytest.mark.asyncio
 async def test_get_all_beneficios_with_mock():
-    """Test get all beneficios with mocked service"""
+    
     mock_data = {
         "beneficios": [
             {"id": 1, "name": "Test Beneficio 1", "description": "Test desc", "status": "active"},
@@ -68,8 +68,7 @@ async def test_get_all_beneficios_with_mock():
 
 @pytest.mark.asyncio
 async def test_get_beneficio_by_id_with_mock():
-    """Test get beneficio by ID with mocked service"""
-    
+        
     with patch('app.application.services.BeneficiosService.get_beneficio_by_id') as mock_service:
         from app.domain.models import Beneficio, BeneficioStatus
         

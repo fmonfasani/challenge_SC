@@ -32,7 +32,7 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
             raise
 
     def _to_domain_model(self, data: Dict[str, Any]) -> Beneficio:
-        """Convierte datos de API a modelo de dominio"""
+        
         return Beneficio(
             id=data["id"],
             name=data["name"],
@@ -45,7 +45,7 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
         )
 
     async def get_all(self) -> List[Beneficio]:
-        """Obtiene todos los beneficios y retorna lista de objetos Beneficio"""
+        
         url = f"{self.base_url}/beneficios"
         try:
             data = await self._make_request(url)
@@ -69,7 +69,7 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
             raise
 
     async def get_by_id(self, beneficio_id: int) -> Optional[Beneficio]:
-        """Obtiene un beneficio por ID"""
+        
         url = f"{self.base_url}/beneficios/{beneficio_id}"
         try:
             data = await self._make_request(url)
@@ -83,7 +83,7 @@ class ExternalBeneficioRepository(BeneficiosRepositoryPort):
             raise
 
     async def health_check(self) -> dict:
-        """Verifica el estado de la API externa"""
+        
         try:
             await self._make_request(f"{self.base_url}/beneficios")
             return {"status": "healthy", "api_url": self.base_url}
