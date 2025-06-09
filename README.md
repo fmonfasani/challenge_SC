@@ -32,10 +32,10 @@ Este proyecto cuenta con dos modalidades para poder analizar:
     la API de SP (SportClub).
 
 ### Para la opción 1 tenemos que modificar los datos .env del backend de esta manera:
-API_BASE_URL=http://localhost:8000/api/mock/
+    API_BASE_URL=http://localhost:8000/api/mock/
 
 ### Para probar la API de SportClub, simplemente se usa la URL del challenge:
-API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
+    API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
 
 **Ejecutar backend:**
 ```bash
