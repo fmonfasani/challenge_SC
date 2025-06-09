@@ -120,9 +120,9 @@ const BenefitsApp: React.FC = () => {
             <div className="w-full flex justify-center my-8">
               <h1 className="text-4xl font-extrabold text-center">
                 <span className="text-gray-900">
-                  Beneficios&nbsp;SPORT&nbsp;
+                  Beneficios&nbsp;Sport&nbsp;
                 </span>
-                <span className="text-red-600">CLUB</span>
+                <span className="text-red-600">Club</span>
               </h1>
             </div>
             <div className="flex items-center gap-4">
