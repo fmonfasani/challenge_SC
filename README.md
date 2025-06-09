@@ -12,7 +12,7 @@ cp .env.example .env
 ```
 
 **IMPORTANTE - Variables de entorno:** Editar `backend/.env`:
-```
+
 Este proyecto cuenta con dos modalidades para poder analizar:
 
 1 - Una opción utiliza datos hardcodeados para probar directamente la vista renderizada
@@ -36,7 +36,7 @@ API_BASE_URL=http://localhost:8000/api/mock/
 
 # Para probar la API de SportClub, simplemente se usa la URL del challenge:
 API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
-```
+
 
 **Ejecutar backend:**
 ```bash
