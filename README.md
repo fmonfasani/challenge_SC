@@ -13,6 +13,10 @@ cp .env.example .env
 
 **IMPORTANTE - Variables de entorno:** Editar `backend/.env`:
 ```
+Este proyecto esta realizado con dos alternativas, una para usar con
+datos harcodeados y probar el frontend la vista y la optra es con la
+URL que nos proporciona la instruccion del Challenge.
+
 # Para usar mock local (recomendado):
 API_BASE_URL=http://localhost:8000/api/mock/
 
