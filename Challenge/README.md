@@ -1,293 +1,105 @@
-# Proyecto Beneficios SportClub
+# Beneficios SportClub
 
-Este proyecto implementa una aplicación completa para gestionar beneficios corporativos, dividida en dos partes: un backend en Python (FastAPI) y un frontend en React con TypeScript.
+## Instalación y Ejecución
 
-## 📋 Características Implementadas
-
-### Backend (Python + FastAPI)
-
-- ✅ API REST que actúa como intermediario con la API de SportClub
-- ✅ Arquitectura limpia (Clean Architecture) con separación de capas
-- ✅ Manejo robusto de errores y timeouts
-- ✅ Logging completo y traceback claro
-- ✅ Testing con más del 90% de cobertura
-- ✅ Rate limiting y middleware personalizado
-- ✅ Validación y normalización de datos
-- ✅ Dockerizado y listo para producción
-
-### Frontend (React + TypeScript)
-
-- ✅ Aplicación React moderna con TypeScript y Vite
-- ✅ Lista de beneficios con paginación
-- ✅ Búsqueda por nombre y filtros por estado
-- ✅ Sistema de favoritos con LocalStorage
-- ✅ Vista detallada de beneficios
-- ✅ Lazy loading de imágenes
-- ✅ Diseño responsive con Tailwind CSS
-- ✅ Manejo de estados de carga y errores
-- ✅ Fallback automático a datos mock si la API falla
-
-## 🚀 Instalación y Configuración
-
-### Prerrequisitos
-
-- Python 3.12+
-- Node.js 18+
-- Docker (opcional)
-
-### 1. Configuración del Backend
+**Backend:**
 
 ```bash
 cd backend
-
-# Crear entorno virtual
 python -m venv venv
-
-# Activar entorno virtual
-# En Windows:
-venv\Scripts\activate
-# En Linux/Mac:
-source venv/bin/activate
-
-# Instalar dependencias
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# Configurar variables de entorno
 cp .env.example .env
 ```
 
-**Importante**: Edita el archivo `.env` para configurar la URL de la API:
+**IMPORTANTE - Variables de entorno:** Editar `backend/.env`:
 
-```env
-# Para usar la API real de SportClub (cuando esté disponible):
-API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
-
-# Para usar el mock local (recomendado para testing):
+```
+# Para usar mock local (recomendado):
 API_BASE_URL=http://localhost:8000/api/mock/
 
-# Otras configuraciones
-REQUEST_TIMEOUT=10
-LOG_LEVEL=INFO
+# Para usar API real:
+API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
 ```
 
-### 2. Configuración del Frontend
+**Ejecutar backend:**
 
 ```bash
-cd frontend
-
-# Instalar dependencias
-npm install
-
-# Configurar variables de entorno (opcional)
-# Crear archivo .env en la carpeta frontend si quieres cambiar la URL del backend
-echo "VITE_API_URL=http://localhost:8000/api" > .env
-```
-
-## 🏃‍♂️ Ejecutar el Proyecto
-
-### Opción 1: Desarrollo Local
-
-**Terminal 1 - Backend:**
-
-```bash
-cd backend
-# Activar entorno virtual si no está activo
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
-
-# Ejecutar servidor
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Terminal 2 - Frontend:**
+**Frontend:**
 
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
 
-Accede a:
-
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- Documentación API: http://localhost:8000/docs
-
-### Opción 2: Docker
+**Tests:**
 
 ```bash
-# Ejecutar todo con Docker Compose
-docker-compose up --build
-
-# O ejecutar cada servicio por separado:
-
 # Backend
-cd backend
-docker build -t sportclub-backend .
-docker run -p 8000:8000 --env-file .env sportclub-backend
+cd backend && pytest tests/ -v --cov=app
 
-# Frontend
-cd frontend
-docker build -t sportclub-frontend .
-docker run -p 3000:3000 sportclub-frontend
+# Frontend linting
+cd frontend && npm run lint
 ```
 
-### Opción 3: Usando Makefile (Backend)
+**Docker:**
 
 ```bash
-cd backend
-
-# Desarrollo
-make dev
-
-# Tests
-make test
-
-# Docker
-make docker
+docker-compose up --build
 ```
 
-## 🧪 Testing
+Acceso: Frontend http://localhost:3000 | API http://localhost:8000/docs
 
-### Backend
+---
 
-```bash
-cd backend
+## Descripción Técnica
 
-# Ejecutar todos los tests
-pytest tests/ -v --cov=app
+### Arquitectura Backend
 
-# Tests específicos
-pytest tests/test_service.py -v
-pytest tests/test_endpoints_integration.py -v
+Implementa Clean Architecture con FastAPI separando domain, application e infrastructure. El servicio actúa como intermediario entre el frontend y la API externa de SportClub, con fallback automático a datos mock.
 
-# Con reporte de cobertura HTML
-pytest tests/ --cov=app --cov-report=html
-```
+**Tecnologías:**
 
-### Frontend
+- Python 3.12, FastAPI, Pydantic
+- Testing: pytest, pytest-cov, respx
+- Logging nativo, HTTPX para requests
+- Docker, rate limiting
 
-```bash
-cd frontend
+**Endpoints:**
 
-# Linting
-npm run lint
+- `GET /api/beneficios` - Lista todos los beneficios
+- `GET /api/beneficios/{id}` - Beneficio específico
+- `GET /health` - Health check
+- `GET /docs` - Documentación OpenAPI
 
-# Build para producción
-npm run build
-```
+### Arquitectura Frontend
 
-## 🌐 Configuración de API
+Aplicación React con TypeScript usando componentes funcionales y hooks. Implementa lazy loading, paginación y sistema de favoritos persistente.
 
-### Usando la API Real de SportClub
+**Tecnologías:**
 
-Si quieres conectar con la API real de SportClub, cambia la variable en el archivo `backend/.env`:
+- React 19, TypeScript, Vite
+- Tailwind CSS para estilos
+- React Router para navegación
+- LocalStorage para favoritos
 
-```env
-API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
-```
+**Funcionalidades:**
 
-### Usando el Mock Local (Recomendado)
+- Lista paginada de beneficios
+- Búsqueda y filtros por estado
+- Vista detallada en modal
+- Sistema de favoritos
+- Lazy loading de imágenes
+- Diseño responsive
 
-Para development y testing, usa el mock incluido:
+### Testing y Calidad
 
-```env
-API_BASE_URL=http://localhost:8000/api/mock/
-```
+Backend con tests unitarios, integración y manejo de errores. Frontend con ESLint y validación TypeScript.
 
-El mock incluye 15 beneficios de ejemplo con datos realistas.
+### Despliegue
 
-## 📁 Estructura del Proyecto
-
-```
-Challenge/
-├── backend/                    # API REST en Python
-│   ├── app/
-│   │   ├── domain/            # Modelos y reglas de negocio
-│   │   ├── application/       # Casos de uso y servicios
-│   │   └── infrastructure/    # Repositorios y detalles técnicos
-│   ├── tests/                 # Tests unitarios e integración
-│   ├── Dockerfile
-│   └── requirements.txt
-├── frontend/                   # Aplicación React
-│   ├── src/
-│   │   ├── components/        # Componentes React
-│   │   ├── services/          # Servicios (API, LocalStorage)
-│   │   ├── types/             # Tipos TypeScript
-│   │   └── mock/              # Datos de prueba
-│   ├── Dockerfile
-│   └── package.json
-└── docker-compose.yml
-```
-
-## 🎯 Funcionalidades Principales
-
-### Frontend
-
-- **Lista de beneficios**: Visualización en grid responsive
-- **Búsqueda**: Filtrar beneficios por nombre en tiempo real
-- **Filtros**: Por estado (activo/inactivo)
-- **Paginación**: Navegación por páginas de resultados
-- **Favoritos**: Marcar/desmarcar beneficios (persiste en LocalStorage)
-- **Vista detallada**: Modal con información completa del beneficio
-- **Lazy loading**: Carga optimizada de imágenes
-- **Fallback automático**: Si la API falla, usa datos mock
-
-### Backend
-
-- **GET /api/beneficios**: Lista todos los beneficios
-- **GET /api/beneficios/{id}**: Obtiene un beneficio específico
-- **GET /health**: Health check del servicio
-- **GET /docs**: Documentación automática de la API
-
-## 🔧 Arquitectura Técnica
-
-### Backend (Clean Architecture)
-
-- **Domain**: Modelos de negocio y reglas
-- **Application**: Servicios y casos de uso
-- **Infrastructure**: Implementaciones técnicas (HTTP, base de datos)
-- **Interfaces**: Controllers y schemas de API
-
-### Frontend (Arquitectura por Capas)
-
-- **Components**: Componentes React reutilizables
-- **Services**: Lógica de negocio y llamadas a API
-- **Types**: Definiciones TypeScript
-- **Pages**: Páginas principales de la aplicación
-
-## 🐛 Solución de Problemas
-
-### La API no responde
-
-- Verifica que el backend esté ejecutándose en el puerto 8000
-- Revisa las variables de entorno en `.env`
-- El frontend automáticamente usa datos mock si no puede conectar con la API
-
-### Error de CORS
-
-- El backend ya tiene CORS configurado para desarrollo
-- Si tienes problemas, verifica que las URLs sean correctas
-
-### Problemas con Docker
-
-- Asegúrate de que los puertos 3000 y 8000 estén disponibles
-- Verifica que Docker esté ejecutándose correctamente
-
-## 📊 Testing y Calidad
-
-- **Backend**: >90% cobertura de tests
-- **Linting**: Configurado para Python (Black, MyPy) y TypeScript (ESLint)
-- **Validación**: Pydantic para validación de datos
-- **Documentación**: OpenAPI/Swagger automática
-- **Logging**: Estructurado y configurable
-
-## 🚀 Despliegue
-
-El proyecto está preparado para despliegue con:
-
-- **Docker**: Contenedores listos para producción
-- **Environment Variables**: Configuración flexible
-- **Health Checks**: Monitoreo de servicios
-- **Static Files**: Frontend optimizado para CDN
-
-¡El proyecto está listo para usar! Si tienes problemas, revisa los logs en consola o consulta la documentación de la API en `/docs`.
+Ambas aplicaciones dockerizadas con docker-compose. Configuración via variables de entorno. Health checks implementados.
