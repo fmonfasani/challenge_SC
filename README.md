@@ -82,13 +82,13 @@ docker-compose up --build
 
 ## Imágenes preconstruidas listas de Docker 
 
-# Desarrollo:
+### Desarrollo:
 ```bash
 ghcr.io/fmonfasani/sportclub-backend + frontend
 docker-compose up
 ```
 
-# Producción: 
+### Producción: 
 
 Solo frontend -> API SportClub directa  
 ```bash
@@ -146,11 +146,3 @@ Frontend con ESLint y validación TypeScript.
 Configuración dual: desarrollo con backend mock local, 
 producción conectando directamente a API SportClub.
 
-**Imágenes Docker listas:**
-```bash
-# Desarrollo: ghcr.io/fmonfasani/sportclub-backend + frontend
-docker-compose up
-
-# Producción: Solo frontend -> API SportClub directa  
-docker-compose -f docker-compose.prod.yml up
-```
