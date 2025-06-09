@@ -1,5 +1,3 @@
-# app/interfaces/routers/routers.py
-
 from fastapi import APIRouter, Path, Depends, Request, HTTPException
 from slowapi.util import get_remote_address
 from app.interfaces.schemas.schemas import BeneficioResponse, BeneficioListResponse, ErrorResponse
@@ -7,7 +5,9 @@ from app.application.services import BeneficiosService
 from app.infrastructure.repositories import ExternalBeneficioRepository
 from app.interfaces.middlewares import limiter  
 
-# Dependency function
+def get_repository():
+    return ExternalBeneficioRepository()
+
 def get_beneficio_service(repository = Depends(get_repository)):
     return BeneficiosService(repository)    
 
@@ -21,7 +21,6 @@ async def get_beneficios(
     request: Request,
     service: BeneficiosService = Depends(get_beneficio_service)
 ):
-    """Obtiene todos los beneficios disponibles"""
     try:
         beneficios_list = await service.get_all_beneficios()
         return BeneficioListResponse.from_domain(beneficios_list)
@@ -38,7 +37,6 @@ async def get_beneficio_by_id(
     beneficio_id: int = Path(..., gt=0, description="ID del beneficio"),
     service: BeneficiosService = Depends(get_beneficio_service)
 ):
-    """Obtiene un beneficio específico por su ID"""
     try:
         beneficio = await service.get_beneficio_by_id(beneficio_id)
         if beneficio is None:
