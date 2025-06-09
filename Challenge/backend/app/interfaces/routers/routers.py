@@ -8,9 +8,8 @@ from app.infrastructure.repositories import ExternalBeneficioRepository
 from app.interfaces.middlewares import limiter  
 
 # Dependency function
-def get_beneficio_service() -> BeneficiosService:
-    repository = ExternalBeneficioRepository()
-    return BeneficiosService(repository)
+def get_beneficio_service(repository = Depends(get_repository)):
+    return BeneficiosService(repository)    
 
 router = APIRouter(prefix="/api/beneficios", tags=["beneficios"])
 
