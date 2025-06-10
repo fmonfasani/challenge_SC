@@ -46,10 +46,11 @@ Este proyecto cuenta con dos modalidades para poder analizar:
     API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
 
 **Ejecutar backend:**
-Opcion rapida (con Make)
+Opcion rápida (con Make)
 ```bash
 make dev
 ```
+Opcion normal:
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
