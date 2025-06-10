@@ -3,6 +3,14 @@
 ## Instalación y Ejecución
 
 **Backend:**
+### clean and reset
+Para realizar bien el procedimiento es conveniente borrar si existe algunos datos antiguos o de otro projecto
+```bash
+desactivate
+rm -rf -m venv .venv
+
+```
+### RUN: 
 ```bash
 cd backend
 python -m venv .venv
@@ -38,6 +46,10 @@ Este proyecto cuenta con dos modalidades para poder analizar:
     API_BASE_URL=https://api-beneficios.dev.sportclub.com.ar/api/
 
 **Ejecutar backend:**
+Opcion rapida (con Make)
+```bash
+make dev
+```
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
